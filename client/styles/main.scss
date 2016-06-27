@@ -1,6 +1,17 @@
-$background: lightblue;
+$background: white;
 
 body {
   background: $background;
   font-family: "Helvetica Neue", serif;
+}
+
+.app {
+  width: 100%;
+  display: flex;
+}
+.header {
+  width: 100%;
+  display: flex;
+  align-items:center;
+  justify-content: center;
 }

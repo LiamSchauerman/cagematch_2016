@@ -19,7 +19,7 @@ module.exports = {
 
   entry: [
     'babel-polyfill',
-    './client/main.jsx'
+    './client/app.jsx'
   ],
 
   output: {
