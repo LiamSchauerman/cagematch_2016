@@ -10,7 +10,8 @@ if (process.env.NODE_ENV !== 'test') {
   ].concat(config.entry);
 }
 
-config.devtool = 'cheap-module-eval-source-map';
+//config.devtool = 'cheap-module-eval-source-map';
+config.devtool = 'eval-cheap-module-source-map';
 
 config.plugins = config.plugins.concat([
   new webpack.HotModuleReplacementPlugin()

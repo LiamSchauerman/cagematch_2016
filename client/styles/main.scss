@@ -3,15 +3,56 @@ $background: white;
 body {
   background: $background;
   font-family: "Helvetica Neue", serif;
+  margin: 0px;
 }
 
+/* wraps header and contentWrapper */
 .app {
-  width: 100%;
+  width: 100vw;
   display: flex;
+  color: black;
+  overflow-x: hidden;
 }
 .header {
   width: 100%;
   display: flex;
   align-items:center;
   justify-content: center;
+  height: 100px;
+  background-color: black;
+  color: white;
+  font-size: 2rem;
+}
+
+.contentWrapper {
+  display: flex;
+  min-height: 100vh;
+  width: 100vw;
+}
+
+.home {
+  /* 70x30 rule */
+  flex: 0 0 70%;
+}
+
+.newsWrapper {
+  flex: 0 1 30%;
+
+}
+.newsItem {
+  width: 100%;
+  border: 1px solid gray;
+}
+.newsContent {
+  padding: 5%;
+}
+.aboutPlaceholder {
+  flex: 0 0 100%;
+  height: 300px;
+  border: 1px solid gray;
+}
+.gifPlaceholder {
+  flex: 0 0 100%;
+  height: 280px;
+  background-color: lightgray;
 }
