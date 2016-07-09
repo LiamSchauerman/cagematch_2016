@@ -7,6 +7,8 @@ import movies from '../data';
 class Main extends Component {
   constructor() {
     super();
+
+    /* temp - filter movies with no image */
     this.state = {
       movies: movies.filter(movie => movie.imgUrl !== undefined)
     }
@@ -28,6 +30,7 @@ class Main extends Component {
 
   render() {
 
+    // todo - put cageEntries on state
     const cageEntries = this.getEntries();
 
     return (
