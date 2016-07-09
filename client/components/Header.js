@@ -6,7 +6,7 @@ class Header extends Component {
   render() {
     return (
       <div className="header">
-        MIMEDIC - Medical Printing Services
+        HEADER
       </div>
     );
   }
