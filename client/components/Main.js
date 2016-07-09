@@ -8,7 +8,7 @@ class Main extends Component {
   constructor() {
     super();
     this.state = {
-      movies
+      movies: movies.filter(movie => movie.imgUrl !== undefined)
     }
   }
 
@@ -16,7 +16,14 @@ class Main extends Component {
    * return two movies from list
    */
   getEntries() {
-    return [this.state.movies[10], this.state.movies[12]];
+    let rand1, rand2;
+    rand1 = Math.floor(Math.random() * this.state.movies.length);
+    rand2 = Math.floor(Math.random() * this.state.movies.length);
+    while (rand2 === rand1) {
+      rand2 = Math.floor(Math.random() * this.state.movies.length);
+    }
+
+    return [this.state.movies[rand1], this.state.movies[rand2]];
   }
 
   render() {
