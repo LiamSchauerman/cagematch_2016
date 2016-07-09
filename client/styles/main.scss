@@ -13,13 +13,39 @@ body {
   color: black;
   overflow-x: hidden;
 }
+
 .header {
   width: 100%;
   display: flex;
-  align-items:center;
+  align-items: center;
   justify-content: center;
   height: 100px;
   background-color: black;
   color: white;
   font-size: 2rem;
+}
+
+.cage {
+  width: 80%;
+  display: flex;
+}
+
+/* wraps two cage entries */
+.cageEntriesWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin: 0 3%;
+}
+
+.cageEntry {
+  flex: 0 0 40%;
+}
+
+.title {
+  font-weight: bold;
+}
+
+.image {
+  width: 100%;
 }
