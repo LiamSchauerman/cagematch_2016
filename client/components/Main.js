@@ -19,23 +19,34 @@ class Main extends Component {
    * return two movies from list
    */
   getEntries() {
+    if (!this.state.movies || !this.state.movies.length) {
+      return [];
+    }
     let rand1, rand2;
     rand1 = Math.floor(Math.random() * this.state.movies.length);
     rand2 = Math.floor(Math.random() * this.state.movies.length);
 
-    //while (rand2 === rand1) {
-    //  rand2 = Math.floor(Math.random() * this.state.movies.length);
-    //}
+    while (rand2 === rand1) {
+      rand2 = Math.floor(Math.random() * this.state.movies.length);
+    }
 
     return [this.state.movies[rand1], this.state.movies[rand2]];
   }
 
-  handleClick() {
+  newMatchup() {
     const cageEntries = this.getEntries();
     this.setState({
       cageEntries
     })
   };
+
+  voteBoth() {
+    console.log('vote both');
+  }
+
+  voteNeither() {
+    console.log('vote neither');
+  }
 
   componentDidMount() {
     fetch('movies')
@@ -62,8 +73,6 @@ class Main extends Component {
   }
 
   render() {
-
-    // todo - put cageEntries on state
     const {cageEntries} = this.state;
 
     if (!this.state.movies || !this.state.movies.length || !cageEntries || cageEntries[0] === undefined) {
@@ -73,9 +82,11 @@ class Main extends Component {
       <div className="app">
         <Header />
         <Cage
+          voteBoth={this.voteBoth}
+          voteNeither={this.voteNeither}
           cageEntries={cageEntries}
         />
-        <button onClick={(e) => {this.handleClick(e)}}>CLICK IT</button>
+        <button onClick={() => {this.newMatchup()}}>CLICK IT</button>
       </div>
     );
   }

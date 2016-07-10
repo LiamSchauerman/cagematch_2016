@@ -28,6 +28,22 @@ body {
 .cage {
   width: 80%;
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: lightgray;
+  border: 1px solid black;
+  margin: auto;
+}
+
+.buttonsWrapper {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  button {
+    width: 6rem;
+    height: 2rem;
+    margin: 1rem 0;
+  }
 }
 
 /* wraps two cage entries */
@@ -40,12 +56,21 @@ body {
 
 .cageEntry {
   flex: 0 0 40%;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  &:hover {
+    background-color: #bcddbc;
+  }
 }
 
 .title {
+  text-align: center;
   font-weight: bold;
 }
-
-.image {
-  width: 100%;
-}
+//
+//.image {
+//  height: 70%;
+//  width: 70%;
+//}

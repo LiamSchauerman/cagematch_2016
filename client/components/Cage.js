@@ -5,7 +5,7 @@ import CageEntry from './CageEntry';
 
 class Cage extends Component {
   render() {
-    const {cageEntries} = this.props;
+    const {cageEntries, voteBoth, voteNeither} = this.props;
     if (!cageEntries || !cageEntries.length) {
       return <div> loading a new matchup </div>
     }
@@ -20,6 +20,10 @@ class Cage extends Component {
               />
             );
           })}
+        </div>
+        <div className="buttonsWrapper">
+          <button onClick={() => {this.props.voteNeither()}}>Neither!</button>
+          <button onClick={() => {this.props.voteBoth()}}>...both?</button>
         </div>
       </div>
     );
