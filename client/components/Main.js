@@ -2,23 +2,17 @@ import React, { Component } from 'react';
 import Header from './Header';
 import Cage from './Cage';
 import styles from '../styles/main.scss';
-import movies from '../data';
+//import movies from '../data';
 
 class Main extends Component {
   constructor() {
     super();
-
-    /* temp - filter movies with no image */
+    console.log('IN CONSTRUCTOR');
+    console.log(this);
     this.state = {
-      movies: movies.filter(movie => movie.imgUrl !== undefined)
-    }
-  }
-
-  handleClick() {
-    fetch('movies', (data) => {
-      console.log('got data!');
-      this.setState({movies: data})
-    });
+      movies: [],
+      cageEntries: []
+    };
   }
 
   /**
@@ -28,25 +22,60 @@ class Main extends Component {
     let rand1, rand2;
     rand1 = Math.floor(Math.random() * this.state.movies.length);
     rand2 = Math.floor(Math.random() * this.state.movies.length);
-    while (rand2 === rand1) {
-      rand2 = Math.floor(Math.random() * this.state.movies.length);
-    }
+
+    //while (rand2 === rand1) {
+    //  rand2 = Math.floor(Math.random() * this.state.movies.length);
+    //}
 
     return [this.state.movies[rand1], this.state.movies[rand2]];
+  }
+
+  handleClick() {
+    const cageEntries = this.getEntries();
+    this.setState({
+      cageEntries
+    })
+  };
+
+  componentDidMount() {
+    fetch('movies')
+      .then((response) => {
+        console.log('fetch cb');
+        return response.json();
+      })
+      .then((movies) => {
+        console.log('fetch cb json');
+        console.log(movies);
+        this.setState({
+          movies,
+        });
+        return Promise.resolve();
+      })
+      .then(() => {
+        const cageEntries = this.getEntries();
+        console.log(cageEntries);
+        this.setState({
+          cageEntries
+        });
+        return Promise.resolve();
+      })
   }
 
   render() {
 
     // todo - put cageEntries on state
-    const cageEntries = this.getEntries();
+    const {cageEntries} = this.state;
 
+    if (!this.state.movies || !this.state.movies.length || !cageEntries || cageEntries[0] === undefined) {
+      return <div className="loading">Preparing the cage...</div>
+    }
     return (
       <div className="app">
         <Header />
         <Cage
           cageEntries={cageEntries}
         />
-        <button onClick={this.handleClick}>CLICK IT</button>
+        <button onClick={(e) => {this.handleClick(e)}}>CLICK IT</button>
       </div>
     );
   }

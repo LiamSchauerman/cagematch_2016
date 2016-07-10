@@ -5,6 +5,9 @@ import styles from '../styles/main.scss';
 class CageEntry extends Component {
   render() {
     const {data} = this.props;
+    if (!data || !data.imgUrl) {
+      return <div> error loading entry </div>
+    }
     return (
       <div className="cageEntry">
         <div className="title">{data.title}</div>
