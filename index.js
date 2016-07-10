@@ -1,5 +1,8 @@
 'use strict';
 
+var mongoose = require("mongoose");
+var request = require('request');
+var Movie = require('./models/movieModel');
 var fs = require('fs');
 var path = require('path');
 
@@ -30,7 +33,18 @@ if (env.production) {
   });
 }
 
-app.get('/*', function(req, res) {
+/**
+ * database connect
+ */
+mongoose.connect('localhost/cagematch');
+app.get('/movies', function (req, res) {
+  Movie.find({ actorId: 'nm0000115' }, function(err, cageMovies) {
+    if (err) return next(err);
+    res.send(cageMovies.filter(function(movie) {return movie.imgUrl !== undefined}));
+  });
+});
+
+app.get('/', function (req, res) {
   res.render('index', {
     env: env
   });

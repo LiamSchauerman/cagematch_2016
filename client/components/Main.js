@@ -14,6 +14,13 @@ class Main extends Component {
     }
   }
 
+  handleClick() {
+    fetch('movies', (data) => {
+      console.log('got data!');
+      this.setState({movies: data})
+    });
+  }
+
   /**
    * return two movies from list
    */
@@ -39,6 +46,7 @@ class Main extends Component {
         <Cage
           cageEntries={cageEntries}
         />
+        <button onClick={this.handleClick}>CLICK IT</button>
       </div>
     );
   }
