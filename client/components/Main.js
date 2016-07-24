@@ -2,15 +2,27 @@ import React, { Component } from 'react';
 import Header from './Header';
 import Cage from './Cage';
 import styles from '../styles/main.scss';
-//import movies from '../data';
+import * as utils from '../utils/tools';
 
 class Main extends Component {
   constructor() {
     super();
+    this.submitMatchup = this.submitMatchup.bind(this);
+
+    /**
+     * movies - array of imdbId's
+     * entries - holds imdbId of active movie
+     * idMap - imdbId : movieData
+     * @type {{movies: Array, entries: {left: null, right: null}, idMap: {}}}
+     */
     this.state = {
       movies: [],
-      cageEntries: []
-    };
+      entries: {
+        left: null,
+        right: null,
+      },
+      idMap: {}
+    }
   }
 
   /**
@@ -20,92 +32,107 @@ class Main extends Component {
     if (!this.state.movies || !this.state.movies.length) {
       return [];
     }
-    let rand1, rand2;
-    rand1 = Math.floor(Math.random() * this.state.movies.length);
-    rand2 = Math.floor(Math.random() * this.state.movies.length);
-
-    while (rand2 === rand1) {
-      rand2 = Math.floor(Math.random() * this.state.movies.length);
-    }
-
-    return [this.state.movies[rand1], this.state.movies[rand2]];
+    const indices = utils.getTwoRandomIndices(this.state.movies.length);
+    return [this.state.movies[indices[0]], this.state.movies[indices[1]]];
   }
 
   newMatchup() {
-    const cageEntries = this.getEntries();
+    // array of two imdbId's
+    const newEntries = this.getEntries();
     this.setState({
-      cageEntries
+      entries: {
+        left: newEntries[0],
+        right: newEntries[1],
+      },
     })
   };
 
   voteBoth() {
     console.log('vote both');
+    return;
   }
 
   voteNeither() {
     console.log('vote neither');
+    return;
   }
 
-  getEloRating(a, b) {
-    const K = 32;
-
-    // adjusted rating
-    const r1 = Math.pow(10, (a / 400));
-    const r2 = Math.pow(10, (b / 400));
-
-    // expected score
-    const e1 = r1 / (r1 + r2);
-    const e2 = r2 / (r1 + r2);
-
-    // new score if 'a' wins
-    const r1NewA = a + K * (1 - e1); // winner, a
-    const r2NewA = b + K * (0 - e2); // loser, b
-
-    // new score if 'b' wins
-    const r2NewB = b + K * (1 - e2); // winner, b
-    const r1NewB = a + K * (0 - e1); // loser, a
-
-    return {
-      a: {
-        win: r1NewA,
-        lose: r1NewB,
+  submitMatchup(matchup) {
+   /* matchup === {
+      winner: {
+        imdbId,
+        oldScore,
+        newScore
       },
-      b: {
-        win: r2NewB,
-        lose: r2NewA
+      loser: {
+        imdbId,
+        oldScore,
+        newScore
       }
     }
+    */
+  }
+
+  clickTitle(id) {
+    // id is the winner (left or right)
+    // build matchup object
+    const {idMap, entries} = this.state;
+
+    //todo - refactor this. very messy
+    let winningSide, losingSide;
+    winningSide = entries.left.id === id ? 'left' : 'right';
+    losingSide = winningSide === 'left' ? 'right' : 'left';
+
+    //const loser = entries.filter(entry => entry !== id);
+    const matchup = {
+      winner: {
+        imdbId: id,
+        oldScore: idMap[entries[winningSide].id].score,
+        newScore: winnerNewScore,
+      },
+      loser: {
+        imdbId: idMap[entries[losingSide]].id,
+        oldScore: idMap[entries[losingSide].id].score,
+        newScore: loserNewScore,
+      }
+    };
+    this.submitMatchup(matchup);
   }
 
   componentDidMount() {
     fetch('movies')
       .then((response) => {
-        console.log('fetch cb');
         return response.json();
       })
-      .then((movies) => {
-        console.log('fetch cb json');
-        console.log(movies);
+      .then((moviesRaw) => {
+        // from movies array, create idMap obj and an array of ids
+        const ids = [];
+        const idMap = {};
+        moviesRaw.forEach(movie => {
+          ids.push(movie.imdbId);
+          idMap[movie.imdbId] = movie;
+        });
         this.setState({
-          movies,
+          movies: ids,
+          idMap
         });
         return Promise.resolve();
       })
       .then(() => {
-        const cageEntries = this.getEntries();
-        console.log(cageEntries);
-        this.setState({
-          cageEntries
-        });
+        this.newMatchup();
         return Promise.resolve();
+      })
+      .catch(error => {
+        console.log('error in fetch');
+        console.log(error);
       })
   }
 
   render() {
-    const {cageEntries} = this.state;
+    const {entries, idMap} = this.state;
 
-    console.log(this.getEloRating(2400, 2000));
-    if (!this.state.movies || !this.state.movies.length || !cageEntries || cageEntries[0] === undefined) {
+    console.log(utils.getEloRating(2400, 2000));
+    if (!this.state.movies || !this.state.movies.length || !entries) {
       return <div className="loading">Preparing the cage...</div>
     }
     return (
@@ -114,7 +141,8 @@ class Main extends Component {
         <Cage
           voteBoth={this.voteBoth}
           voteNeither={this.voteNeither}
-          cageEntries={cageEntries}
+          left={idMap[entries.left]}
+          right={idMap[entries.right]}
         />
         <button onClick={() => {this.newMatchup()}}>CLICK IT</button>
       </div>

@@ -5,21 +5,19 @@ import CageEntry from './CageEntry';
 
 class Cage extends Component {
   render() {
-    const {cageEntries, voteBoth, voteNeither} = this.props;
-    if (!cageEntries || !cageEntries.length) {
+    const {voteBoth, voteNeither, left, right} = this.props;
+    if (!(left && right)) {
       return <div> loading a new matchup </div>
     }
     return (
       <div className="cage">
         <div className="cageEntriesWrapper">
-          {cageEntries.map((entry, idx) => {
-            return (
-              <CageEntry
-                key={idx}
-                data={entry}
-              />
-            );
-          })}
+          <CageEntry
+            data={left}
+          />
+          <CageEntry
+            data={right}
+          />
         </div>
         <div className="buttonsWrapper">
           <button onClick={() => {this.props.voteNeither()}}>Neither!</button>
