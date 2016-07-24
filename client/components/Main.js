@@ -7,8 +7,6 @@ import styles from '../styles/main.scss';
 class Main extends Component {
   constructor() {
     super();
-    console.log('IN CONSTRUCTOR');
-    console.log(this);
     this.state = {
       movies: [],
       cageEntries: []
