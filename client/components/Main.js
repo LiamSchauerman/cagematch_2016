@@ -8,7 +8,7 @@ class Main extends Component {
   constructor() {
     super();
     this.submitMatchup = this.submitMatchup.bind(this);
-    this.clickTitle = this.clickTitle.bind(this);
+    this.clickHandler = this.clickHandler.bind(this);
 
     /**
      * movies - array of imdbId's
@@ -95,14 +95,11 @@ class Main extends Component {
       winnerScorePost: matchup.winner.newScore,
       actorId: winnerCurr.actorId,
     };
-    console.log('sending matchup');
-    console.log(formattedMatchup);
     fetch("/matchup", {
       method: "POST",
       body: JSON.stringify(formattedMatchup),
     })
     .then(response => {
-      // done
       console.log('matchup post success');
       console.log(response);
     })
@@ -112,17 +109,16 @@ class Main extends Component {
     })
   }
 
-  clickTitle(winningSide) {
-    // id is the winner (left or right)
+  clickHandler(winningSide) {
+    // winningSide === 'left' or 'right'
     // build matchup object
     const {idMap, entries} = this.state;
     const losingSide = winningSide === 'left' ? 'right' : 'left';
-    //todo - refactor this. very messy
 
     const winnerCurrent = idMap[entries[winningSide]];
     const loserCurrent = idMap[entries[losingSide]];
+
     // get scores from elo
-    console.log(utils.getEloRating(winnerCurrent.score, loserCurrent.score));
     const elo = utils.getEloRating(winnerCurrent.score, loserCurrent.score);
 
     const winnerNewScore = elo.a.win;
@@ -181,7 +177,7 @@ class Main extends Component {
       <div className="app">
         <Header />
         <Cage
-          clickTitle={this.clickTitle}
+          clickHandler={this.clickHandler}
           voteBoth={this.voteBoth}
           voteNeither={this.voteNeither}
           left={idMap[entries.left]}

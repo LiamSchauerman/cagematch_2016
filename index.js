@@ -1,5 +1,5 @@
 'use strict';
-
+//todo separate into smaller modules
 var mongoose = require("mongoose");
 var request = require('request');
 var Movie = require('./models/movieModel');
@@ -14,6 +14,10 @@ var app = express();
 
 var compress = require('compression');
 var layouts = require('express-ejs-layouts');
+
+/**
+ * CONFIG
+ */
 
 app.set('layout');
 app.set('view engine', 'ejs');
@@ -37,10 +41,6 @@ if (env.production) {
 }
 
 /**
- * MIDDLEWARE
- */
-
-/**
  * database connect
  */
 mongoose.connect('localhost/cagematch');
@@ -55,31 +55,23 @@ app.get('/movies', function (req, res) {
   });
 });
 app.post('/matchup', jsonParser, function (req, res) {
-  // get matchup data from req body, insert
+  // get matchup data, insert
   // update winner score
   // update loser score
-  //if (!req.body) {
-  //  return res.status(500).end('no req body');
-  //}
+
   var body = [];
   req.on('data', function (data) {
-    console.log('got data');
-    console.log(data);
     body.push(data);
   })
   req.on('end', function () {
     body = Buffer.concat(body).toString();
 
-    console.log('in matchup post');
-    console.log(body);
-    var matchupData = JSON.parse(body);
-    console.log(matchupData);
-
-    var newMatchup = new Matchup(matchupData);
-    newMatchup.save(function (err, result) {
+    var matchupDataRaw = JSON.parse(body);
+    var newMatchup = new Matchup(matchupDataRaw);
+    newMatchup.save(function (err) {
       if (err) {
         console.log(err);
-        res.status(500).end();
+        res.status(500).end(err);
         return;
       }
       res.status(201).end();

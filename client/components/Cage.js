@@ -5,7 +5,7 @@ import CageEntry from './CageEntry';
 
 class Cage extends Component {
   render() {
-    const {voteBoth, voteNeither, left, right, clickTitle} = this.props;
+    const {voteBoth, voteNeither, left, right, clickHandler} = this.props;
     if (!(left && right)) {
       return <div> loading a new matchup </div>
     }
@@ -13,11 +13,11 @@ class Cage extends Component {
       <div className="cage">
         <div className="cageEntriesWrapper">
           <CageEntry
-            onClick={() => {clickTitle('left')}}
+            onClick={() => {clickHandler('left')}}
             data={left}
           />
           <CageEntry
-            onClick={() => {clickTitle('right')}}
+            onClick={() => {clickHandler('right')}}
             data={right}
           />
         </div>
