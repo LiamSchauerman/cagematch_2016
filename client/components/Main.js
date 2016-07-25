@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Header from './Header';
 import Cage from './Cage';
+import Standings from './Standings';
 import styles from '../styles/main.scss';
 import * as utils from '../utils/tools';
 
@@ -181,7 +182,7 @@ class Main extends Component {
   }
 
   render() {
-    const {entries, idMap} = this.state;
+    const {entries, idMap, movies} = this.state;
 
     if (!this.state.movies || !this.state.movies.length || !entries) {
       return <div className="loading">Preparing the cage...</div>
@@ -196,6 +197,10 @@ class Main extends Component {
           voteNeither={this.voteNeither}
           left={idMap[entries.left]}
           right={idMap[entries.right]}
+        />
+        <Standings
+          idMap={idMap}
+          movies={movies}
         />
       </div>
     );
