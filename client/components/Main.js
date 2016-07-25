@@ -186,12 +186,13 @@ class Main extends Component {
     if (!this.state.movies || !this.state.movies.length || !entries) {
       return <div className="loading">Preparing the cage...</div>
     }
+    // voteBoth={this.voteBoth}
+
     return (
       <div className="app">
         <Header />
         <Cage
           clickHandler={this.clickHandler}
-          voteBoth={this.voteBoth}
           voteNeither={this.voteNeither}
           left={idMap[entries.left]}
           right={idMap[entries.right]}
