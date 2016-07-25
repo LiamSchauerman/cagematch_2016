@@ -3,10 +3,13 @@
 var mongoose = require("mongoose");
 var request = require('request');
 var Movie = require('./models/movieModel');
+var Matchup = require('./models/matchupModel');
 var fs = require('fs');
 var path = require('path');
 
 var express = require('express');
+var bodyParser = require('body-parser');
+var jsonParser = bodyParser.json({type: 'application/*+json'});
 var app = express();
 
 var compress = require('compression');
@@ -34,14 +37,55 @@ if (env.production) {
 }
 
 /**
+ * MIDDLEWARE
+ */
+
+/**
  * database connect
  */
 mongoose.connect('localhost/cagematch');
+
+//todo - move this to routes external function
 app.get('/movies', function (req, res) {
-  Movie.find({ actorId: 'nm0000115' }, function(err, cageMovies) {
+  Movie.find({actorId: 'nm0000115'}, function (err, cageMovies) {
     if (err) return next(err);
-    res.send(cageMovies.filter(function(movie) {return movie.imgUrl !== undefined}));
+    res.send(cageMovies.filter(function (movie) {
+      return movie.imgUrl !== undefined
+    }));
   });
+});
+app.post('/matchup', jsonParser, function (req, res) {
+  // get matchup data from req body, insert
+  // update winner score
+  // update loser score
+  //if (!req.body) {
+  //  return res.status(500).end('no req body');
+  //}
+  var body = [];
+  req.on('data', function (data) {
+    console.log('got data');
+    console.log(data);
+    body.push(data);
+  })
+  req.on('end', function () {
+    body = Buffer.concat(body).toString();
+
+    console.log('in matchup post');
+    console.log(body);
+    var matchupData = JSON.parse(body);
+    console.log(matchupData);
+
+    var newMatchup = new Matchup(matchupData);
+    newMatchup.save(function (err, result) {
+      if (err) {
+        console.log(err);
+        res.status(500).end();
+        return;
+      }
+      res.status(201).end();
+    })
+  })
+
 });
 
 app.get('/', function (req, res) {

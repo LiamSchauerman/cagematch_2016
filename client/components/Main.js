@@ -8,6 +8,7 @@ class Main extends Component {
   constructor() {
     super();
     this.submitMatchup = this.submitMatchup.bind(this);
+    this.clickTitle = this.clickTitle.bind(this);
 
     /**
      * movies - array of imdbId's
@@ -58,6 +59,7 @@ class Main extends Component {
   }
 
   submitMatchup(matchup) {
+    const {idMap} = this.state;
    /* matchup === {
       winner: {
         imdbId,
@@ -71,28 +73,69 @@ class Main extends Component {
       }
     }
     */
+    /* {
+     "loserScorePost": 1188,
+     "winnerScorePost": 1212,
+     "loserScorePre": 1200,
+     "winnerScorePre": 1200,
+     "loser": "Sharknado 3: Oh Hell No!",
+     "winner": "A Message from Step Brothers' Adam Scott",
+     "actorId": "nm1171860",
+     } */
+
+    const winnerCurr = idMap[matchup.winner.imdbId];
+    const loserCurr = idMap[matchup.loser.imdbId];
+
+    const formattedMatchup = {
+      loser: loserCurr.title,
+      loserScorePost: matchup.loser.newScore,
+      loserScorePre: loserCurr.score,
+      winner: winnerCurr.title,
+      winnerScorePre: winnerCurr.score,
+      winnerScorePost: matchup.winner.newScore,
+      actorId: winnerCurr.actorId,
+    };
+    console.log('sending matchup');
+    console.log(formattedMatchup);
+    fetch("/matchup", {
+      method: "POST",
+      body: JSON.stringify(formattedMatchup),
+    })
+    .then(response => {
+      // done
+      console.log('matchup post success');
+      console.log(response);
+    })
+    .catch(err => {
+      console.log('matchup post ERROR');
+      console.log(err);
+    })
   }
 
-  clickTitle(id) {
+  clickTitle(winningSide) {
     // id is the winner (left or right)
     // build matchup object
     const {idMap, entries} = this.state;
-
+    const losingSide = winningSide === 'left' ? 'right' : 'left';
     //todo - refactor this. very messy
-    let winningSide, losingSide;
-    winningSide = entries.left.id === id ? 'left' : 'right';
-    losingSide = winningSide === 'left' ? 'right' : 'left';
 
-    //const loser = entries.filter(entry => entry !== id);
+    const winnerCurrent = idMap[entries[winningSide]];
+    const loserCurrent = idMap[entries[losingSide]];
+    // get scores from elo
+    console.log(utils.getEloRating(winnerCurrent.score, loserCurrent.score));
+    const elo = utils.getEloRating(winnerCurrent.score, loserCurrent.score);
+
+    const winnerNewScore = elo.a.win;
+    const loserNewScore = elo.b.lose;
     const matchup = {
       winner: {
-        imdbId: id,
-        oldScore: idMap[entries[winningSide].id].score,
+        imdbId: winnerCurrent.imdbId,
+        oldScore: winnerCurrent.score,
         newScore: winnerNewScore,
       },
       loser: {
-        imdbId: idMap[entries[losingSide]].id,
-        oldScore: idMap[entries[losingSide].id].score,
+        imdbId: loserCurrent.imdbId,
+        oldScore: loserCurrent.score,
         newScore: loserNewScore,
       }
     };
@@ -131,7 +174,6 @@ class Main extends Component {
   render() {
     const {entries, idMap} = this.state;
 
-    console.log(utils.getEloRating(2400, 2000));
     if (!this.state.movies || !this.state.movies.length || !entries) {
       return <div className="loading">Preparing the cage...</div>
     }
@@ -139,6 +181,7 @@ class Main extends Component {
       <div className="app">
         <Header />
         <Cage
+          clickTitle={this.clickTitle}
           voteBoth={this.voteBoth}
           voteNeither={this.voteNeither}
           left={idMap[entries.left]}

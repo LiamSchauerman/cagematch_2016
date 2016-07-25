@@ -18,6 +18,17 @@ export function getTwoRandomIndices(len) {
   return [rand1, rand2]
 }
 
+/**
+ *
+ * when building a finalized matchup, use 'a' for winner and 'b' for loser.
+ *
+ * can also be used before matchup is finalized, to see the potential change in ELO score
+ *
+ * return {"a":{"win":1080.6183244216031,"lose":1048.6183244216031},"b":{"win":1112.6437215974636,"lose":1080.6437215974636}}
+ * @param a WINNER score
+ * @param b LOSER score
+ * @returns {{a: {win: *, lose: *}, b: {win: *, lose: *}}}
+ */
 export function getEloRating(a, b) {
   const K = 32;
 

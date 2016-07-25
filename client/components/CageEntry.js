@@ -4,12 +4,12 @@ import styles from '../styles/main.scss';
 
 class CageEntry extends Component {
   render() {
-    const {data} = this.props;
+    const {data, onClick} = this.props;
     if (!data || !data.imgUrl) {
       return <div> error loading entry </div>
     }
     return (
-      <div className="cageEntry">
+      <div onClick={onClick} className="cageEntry">
         <div className="title">{data.title}</div>
         <img className="image" src={data.imgUrl}/>
       </div>
