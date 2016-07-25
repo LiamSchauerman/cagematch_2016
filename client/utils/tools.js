@@ -30,7 +30,7 @@ export function getTwoRandomIndices(len) {
  * @returns {{a: {win: *, lose: *}, b: {win: *, lose: *}}}
  */
 export function getEloRating(a, b) {
-  const K = 32;
+  const K = 40;
 
   // adjusted rating
   const r1 = Math.pow(10, (a / 400));

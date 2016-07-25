@@ -27,13 +27,16 @@ body {
   color: white;
   font-size: 2rem;
 }
-
+.upper {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
 .cage {
   width: 80%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  margin: auto;
+  margin-top: 4rem;
   margin-bottom: 2rem;
 }
 
@@ -44,10 +47,10 @@ body {
   background-color: red;
   width: 3rem;
   height: 3rem;
-  display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  margin-top: 1rem;
 }
 
 /* wraps two cage entries */
@@ -88,13 +91,14 @@ body {
   flex-direction: column;
   background-color: darkgray;
   width: 50%;
-  align-self: center;
+  align-self: flex-end;
+  flex: 0 0 26%;
 }
 
 .standingsEntry {
   background-color: darkblue;
   color: white;
-  font-size: 1.2rem;
+  font-size: 1rem;
   padding: 1rem 1rem;
   margin: 1rem 1rem;
 }

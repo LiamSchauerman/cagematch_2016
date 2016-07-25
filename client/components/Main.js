@@ -32,7 +32,7 @@ class Main extends Component {
       removed: {},
     }
   }
-  
+
   fetchMovies() {
     var self = this;
     return fetch('movies')
@@ -99,19 +99,19 @@ class Main extends Component {
 
   submitMatchup(matchup) {
     const {idMap} = this.state;
-   /* matchup === {
-      winner: {
-        imdbId,
-        oldScore,
-        newScore
-      },
-      loser: {
-        imdbId,
-        oldScore,
-        newScore
-      }
-    }
-    */
+    /* matchup === {
+     winner: {
+     imdbId,
+     oldScore,
+     newScore
+     },
+     loser: {
+     imdbId,
+     oldScore,
+     newScore
+     }
+     }
+     */
     /* {
      "loserScorePost": 1188,
      "winnerScorePost": 1212,
@@ -138,14 +138,14 @@ class Main extends Component {
       method: "POST",
       body: JSON.stringify(formattedMatchup),
     })
-    .then(response => {
-      console.log('matchup post success');
-      console.log(response);
-    })
-    .catch(err => {
-      console.log('matchup post ERROR');
-      console.log(err);
-    })
+      .then(response => {
+        console.log('matchup post success');
+        console.log(response);
+      })
+      .catch(err => {
+        console.log('matchup post ERROR');
+        console.log(err);
+      })
   }
 
   clickHandler(winningSide) {
@@ -184,15 +184,16 @@ class Main extends Component {
     console.log('cdm');
     console.log(this);
     this.fetchMovies()
-    .then(() => {
-      this.newMatchup();
-    });
+      .then(() => {
+        this.newMatchup();
+      });
     const self = this;
     this.fetchTimer = setInterval(() => {
       console.log('timer');
       self.fetchMovies();
     }, 10000);
   }
+
   componentWillUnmount() {
     window.clearInterval(this.fetchTimer);
   }
@@ -208,16 +209,18 @@ class Main extends Component {
     return (
       <div className="app">
         <Header />
-        <Cage
-          clickHandler={this.clickHandler}
-          voteNeither={this.voteNeither}
-          left={idMap[entries.left]}
-          right={idMap[entries.right]}
-        />
-        <Standings
-          idMap={idMap}
-          movies={movies}
-        />
+        <div className="upper">
+          <Cage
+            clickHandler={this.clickHandler}
+            voteNeither={this.voteNeither}
+            left={idMap[entries.left]}
+            right={idMap[entries.right]}
+          />
+          <Standings
+            idMap={idMap}
+            movies={movies}
+          />
+        </div>
       </div>
     );
   }
