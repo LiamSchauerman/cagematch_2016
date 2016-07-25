@@ -9,6 +9,9 @@ class Main extends Component {
     super();
     this.submitMatchup = this.submitMatchup.bind(this);
     this.clickHandler = this.clickHandler.bind(this);
+    this.newMatchup = this.newMatchup.bind(this);
+    this.voteBoth = this.voteBoth.bind(this);
+    this.voteNeither = this.voteNeither.bind(this);
 
     /**
      * idMap - a map from imdbId to movieData
@@ -60,6 +63,7 @@ class Main extends Component {
 
   voteNeither() {
     // remove these from list.
+
     this.newMatchup();
     return;
   }

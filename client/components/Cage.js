@@ -22,8 +22,14 @@ class Cage extends Component {
           />
         </div>
         <div className="buttonsWrapper">
-          <button onClick={() => {voteNeither()}}>Neither!</button>
-          <button onClick={() => {voteBoth()}}>...both?</button>
+          <button onClick={() => {
+            voteNeither()}
+            }>Neither!
+          </button>
+          <button onClick={() => {
+            voteBoth()}
+            }>...both?
+          </button>
         </div>
       </div>
     );
