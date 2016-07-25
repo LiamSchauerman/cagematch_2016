@@ -13,6 +13,7 @@ class Main extends Component {
     this.newMatchup = this.newMatchup.bind(this);
     this.voteBoth = this.voteBoth.bind(this);
     this.voteNeither = this.voteNeither.bind(this);
+    this.fetchMovies = this.fetchMovies.bind(this);
 
     /**
      * idMap - a map from imdbId to movieData
@@ -30,6 +31,33 @@ class Main extends Component {
       },
       removed: {},
     }
+  }
+  
+  fetchMovies() {
+    var self = this;
+    return fetch('movies')
+      .then((response) => {
+        return response.json();
+      })
+      .then((moviesRaw) => {
+        // from movies array, create idMap obj and an array of ids
+        const ids = [];
+        const idMap = {};
+        moviesRaw.forEach(movie => {
+          ids.push(movie.imdbId);
+          idMap[movie.imdbId] = movie;
+        });
+        const newState = {idMap};
+        if (!(self.state.movies && self.state.movies.length)) {
+          newState.movies = ids;
+        }
+        self.setState(newState);
+        return Promise.resolve();
+      })
+      .catch(error => {
+        console.log('error in fetch');
+        console.log(error);
+      })
   }
 
   /**
@@ -153,32 +181,20 @@ class Main extends Component {
   }
 
   componentDidMount() {
-    fetch('movies')
-      .then((response) => {
-        return response.json();
-      })
-      .then((moviesRaw) => {
-        // from movies array, create idMap obj and an array of ids
-        const ids = [];
-        const idMap = {};
-        moviesRaw.forEach(movie => {
-          ids.push(movie.imdbId);
-          idMap[movie.imdbId] = movie;
-        });
-        this.setState({
-          movies: ids,
-          idMap
-        });
-        return Promise.resolve();
-      })
-      .then(() => {
-        this.newMatchup();
-        return Promise.resolve();
-      })
-      .catch(error => {
-        console.log('error in fetch');
-        console.log(error);
-      })
+    console.log('cdm');
+    console.log(this);
+    this.fetchMovies()
+    .then(() => {
+      this.newMatchup();
+    });
+    const self = this;
+    this.fetchTimer = setInterval(() => {
+      console.log('timer');
+      self.fetchMovies();
+    }, 10000);
+  }
+  componentWillUnmount() {
+    window.clearInterval(this.fetchTimer);
   }
 
   render() {

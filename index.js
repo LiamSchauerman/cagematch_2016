@@ -54,6 +54,7 @@ app.get('/movies', function (req, res) {
     }));
   });
 });
+
 app.post('/matchup', jsonParser, function (req, res) {
   // get matchup data, insert
   // update winner score
@@ -62,7 +63,7 @@ app.post('/matchup', jsonParser, function (req, res) {
   var body = [];
   req.on('data', function (data) {
     body.push(data);
-  })
+  });
   req.on('end', function () {
     body = Buffer.concat(body).toString();
 
@@ -70,14 +71,35 @@ app.post('/matchup', jsonParser, function (req, res) {
     var newMatchup = new Matchup(matchupDataRaw);
     newMatchup.save(function (err) {
       if (err) {
-        console.log(err);
         res.status(500).end(err);
         return;
       }
-      res.status(201).end();
-    })
-  })
 
+      Movie.findOne({
+        actorId: 'nm0000115',
+        title: matchupDataRaw.winner
+      }, function(err, winner) {
+        if (err) {
+          return res.status(405).end()
+        }
+        winner.score = matchupDataRaw.winnerScorePost;
+        winner.save(function(err, newdoc){
+          Movie.findOne({
+            actorId: 'nm0000115',
+            title: matchupDataRaw.loser
+          }, function(err, loser) {
+            if (err) {
+              return res.status(405).end()
+            }
+            loser.score = matchupDataRaw.loserScorePost;
+            loser.save(function(err, newdoc){
+              res.status(201).end();
+            })
+          });
+        })
+      });
+    });
+  })
 });
 
 app.get('/', function (req, res) {
