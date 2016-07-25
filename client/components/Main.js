@@ -11,18 +11,20 @@ class Main extends Component {
     this.clickHandler = this.clickHandler.bind(this);
 
     /**
+     * idMap - a map from imdbId to movieData
      * movies - array of imdbId's
      * entries - holds imdbId of active movie
-     * idMap - imdbId : movieData
+     * removed - track imdbId's that have been removed
      * @type {{movies: Array, entries: {left: null, right: null}, idMap: {}}}
      */
     this.state = {
+      idMap: {},
       movies: [],
       entries: {
         left: null,
         right: null,
       },
-      idMap: {}
+      removed: {},
     }
   }
 
@@ -49,12 +51,16 @@ class Main extends Component {
   };
 
   voteBoth() {
-    console.log('vote both');
-    return;
+    // get both id's from state, both + 200;
+    // newmatchup
+    //todo - insert into matchup table as new type: both
+    //const {entries, idMap} = this.state;
+    this.newMatchup();
   }
 
   voteNeither() {
-    console.log('vote neither');
+    // remove these from list.
+    this.newMatchup();
     return;
   }
 
@@ -186,7 +192,6 @@ class Main extends Component {
           left={idMap[entries.left]}
           right={idMap[entries.right]}
         />
-        <button onClick={() => {this.newMatchup()}}>CLICK IT</button>
       </div>
     );
   }
