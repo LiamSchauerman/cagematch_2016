@@ -135,7 +135,10 @@ class Main extends Component {
         newScore: loserNewScore,
       }
     };
+    //todo - convert to promises, update state to loading: true until response
     this.submitMatchup(matchup);
+    this.newMatchup();
+
   }
 
   componentDidMount() {
