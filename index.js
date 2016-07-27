@@ -57,6 +57,7 @@ app.get('/movies', function (req, res) {
 
 app.get('/image/:url', function(req,res){
   var url = req.params.url;
+  console.log(url);
   request(url).pipe(res);
 });
 

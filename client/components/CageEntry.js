@@ -8,10 +8,11 @@ class CageEntry extends Component {
     if (!data || !data.imgUrl) {
       return <div> error loading entry </div>
     }
+    const imgSrc = encodeURI(data.imgUrl);
     return (
       <div onClick={onClick} className="cageEntry">
         <div className="title">{data.title}</div>
-        <img className="image" src={`/image/${data.imgUrl}`}/>
+        <img className="image" src={`/image/${imgSrc}`}/>
       </div>
     );
   }
