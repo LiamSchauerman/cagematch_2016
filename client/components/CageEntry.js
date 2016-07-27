@@ -11,7 +11,7 @@ class CageEntry extends Component {
     return (
       <div onClick={onClick} className="cageEntry">
         <div className="title">{data.title}</div>
-        <img className="image" src={data.imgUrl}/>
+        <img className="image" src={`/image/${data.imgUrl}`}/>
       </div>
     );
   }

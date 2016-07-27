@@ -55,6 +55,11 @@ app.get('/movies', function (req, res) {
   });
 });
 
+app.get('/image/:url', function(req,res){
+  var url = req.params.url;
+  request(url).pipe(res);
+});
+
 app.post('/matchup', jsonParser, function (req, res) {
   // get matchup data, insert
   // update winner score
