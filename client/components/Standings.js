@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import classNames from 'classNames';
+//import classNames from 'classNames';
 import style from '../styles/main.scss';
 
 class Standings extends Component {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import classNames from 'classNames';
+//import classNames from 'classnames';
 import styles from '../styles/main.scss';
 import CageEntry from './CageEntry';
 
