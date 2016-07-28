@@ -53,7 +53,7 @@ app.get('/movies', function (req, res) {
       return movie.imgUrl !== undefined
     }).sort(function(a, b){
       return b.score - a.score;
-    }).slice(Math.floor(0, movieCount / 2));
+    }).slice(0, Math.floor(movieCount/2));
     res.send(JSON.stringify(filteredMovies));
 
   });
