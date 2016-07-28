@@ -44,20 +44,23 @@ if (env.production) {
  * database connect
  */
 mongoose.connect('localhost/cagematch');
-
 //todo - move this to routes external function
 app.get('/movies', function (req, res) {
   Movie.find({actorId: 'nm0000115'}, function (err, cageMovies) {
     if (err) return next(err);
-    res.send(cageMovies.filter(function (movie) {
+    var movieCount = cageMovies.length;
+    var filteredMovies = cageMovies.filter(function (movie) {
       return movie.imgUrl !== undefined
-    }));
+    }).sort(function(a, b){
+      return b.score - a.score;
+    }).slice(Math.floor(0, movieCount / 2));
+    res.send(JSON.stringify(filteredMovies));
+
   });
 });
 
 app.get('/image/:url', function(req,res){
   var url = req.params.url;
-  console.log(url);
   request(url).pipe(res);
 });
 

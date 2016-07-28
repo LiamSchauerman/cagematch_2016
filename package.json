@@ -43,6 +43,7 @@
     "ejs": "2.4.1",
     "express": "4.13.4",
     "express-ejs-layouts": "2.0.0",
+    "json-parser": "1.1.5",
     "mongoose": "4.5.3",
     "react": "0.14.6",
     "react-dom": "0.14.6",
