@@ -17,7 +17,7 @@ class Standings extends Component {
         {sortedByScore.map((id, idx) => {
           return (
             <div key={id} className="standingsEntry">
-              #{idx + 1} - {idMap[id].title} - {Math.floor(idMap[id].score)}
+              <div>#{idx + 1}</div><div className="entryTitle">{idMap[id].title}</div><div>{Math.floor(idMap[id].score)}</div>
             </div>
           );
         })}

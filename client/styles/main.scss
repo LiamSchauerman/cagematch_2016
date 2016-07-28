@@ -1,4 +1,31 @@
+
+$grid-breakpoints: (
+        sm: 680px,
+        md: 768px,
+);
+
+@function breakpoint-min($name, $breakpoints: $grid-breakpoints) {
+  $min: map-get($breakpoints, $name);
+  @return if($min != 0, $min, null);
+}
+
+@mixin media-breakpoint-up($name, $breakpoints: $grid-breakpoints) {
+  $min: breakpoint-min($name, $breakpoints);
+  @if $min {
+    @media (min-width: $min) {
+      @content;
+    }
+  } @else {
+    @content;
+  }
+}
+
 $background: white;
+$gold: rgb(247,239,106);
+$green: rgb(125,179,127);
+$blue: rgba(0, 128, 128, 0.96);
+$purple: rgba(71,94,138, 0.85);
+
 
 body {
   background: $background;
@@ -27,13 +54,19 @@ body {
   color: white;
   font-size: 2rem;
 }
+
 .upper {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   width: 100%;
+
+  @include media-breakpoint-up('sm') {
+    flex-direction: row;
+  }
 }
+
 .cage {
-  width: 80%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   margin-top: 4rem;
@@ -45,12 +78,14 @@ body {
   display: flex;
   flex-direction: column;
   background-color: red;
-  width: 3rem;
-  height: 3rem;
+  min-width: 3rem;
+  border: 1px solid gray;
+  padding: 0.5rem;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   margin-top: 1rem;
+  font-size: 1rem;
 }
 
 /* wraps two cage entries */
@@ -63,45 +98,72 @@ body {
 
 .cageEntry {
   flex: 0 0 40%;
-  padding: 2rem 1rem;
+  padding: 1rem 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: rgba(14, 10, 10, 0.83);
-  transition: background-color .1s;
+  transition: background-color .1s, border-color .1s;
   cursor: pointer;
+  border-width: 3px 0;
+  border-color: transparent;
+  border-style: solid;
   &:hover {
-    background-color: rgba(0, 197, 24, 0.68);
+    background-color: $blue;
+    border-color: $gold;
+    border-width: 3px 0;
+
   }
 }
 
 .title {
   text-align: center;
-  font-weight: bold;
   flex: 1 0 10%;
+  font-size: 1.2rem;
 }
 
 .image {
-  height: 45%;
+  width: 12rem;
+  max-width: 75%;
+  height: auto;
 }
 
 .standingsWrapper {
   display: flex;
   padding: 1rem;
   flex-direction: column;
-  background-color: darkgray;
-  width: 50%;
+  background-color: $purple;
+  width: 80%;
   align-self: flex-end;
-  flex: 0 0 26%;
+  margin: auto;
 }
 
 .standingsHeader {
+  display:flex;
+  justify-content: center;
   margin-bottom: 1rem;
 }
 
 .standingsEntry {
-  background-color: darkblue;
+  background-color: $blue;
   color: white;
   font-size: 1rem;
-  padding: 1rem 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid $gold;
+  border-top: 1px solid $gold;
+  justify-content: space-between;
+  display: flex;
+  align-items: center;
+  > div {
+    flex: 0 1 15%;
+    display: flex;
+    justify-content: center;
+    &.entryTitle {
+      flex: 1 0 70%;
+      text-align: center;
+      border-width: 0 1px;
+      border-style: solid;
+      border-color: $gold;
+    }
+  }
 }
