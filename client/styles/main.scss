@@ -1,3 +1,25 @@
+$grid-breakpoints: (
+  xs: 0,
+  sm: 544px,
+  md: 768px,
+) !default;
+
+@function breakpoint-min($name, $breakpoints: $grid-breakpoints) {
+  $min: map-get($breakpoints, $name);
+  @return if($min != 0, $min, null);
+}
+
+@mixin media-breakpoint-up($name, $breakpoints: $grid-breakpoints) {
+  $min: breakpoint-min($name, $breakpoints);
+  @if $min {
+    @media (min-width: $min) {
+      @content;
+    }
+  } @else {
+    @content;
+  }
+}
+
 $background: white;
 
 body {
@@ -27,11 +49,16 @@ body {
   color: white;
   font-size: 2rem;
 }
+
 .upper {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   width: 100%;
+  @include media-breakpoint-up('sm') {
+    flex-direction: row
+  }
 }
+
 .cage {
   width: 80%;
   display: flex;
