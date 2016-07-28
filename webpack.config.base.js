@@ -19,7 +19,8 @@ module.exports = {
 
   entry: [
     'babel-polyfill',
-    './client/app.jsx'
+    './client/app.jsx',
+    'whatwg-fetch',
   ],
 
   output: {
