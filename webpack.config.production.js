@@ -17,6 +17,8 @@ config.output = {
   filename: 'bundle.[hash].min.js'
 };
 
+config.entry = ['whatwg-fetch',];
+
 config.plugins = config.plugins.concat([
   new webpack.optimize.OccurenceOrderPlugin(true),
   new webpack.optimize.DedupePlugin(),
@@ -41,7 +43,7 @@ config.plugins = config.plugins.concat([
 ]);
 
 config.module.loaders = config.module.loaders.concat([
-  {test: /\.jsx?$/, loaders: [ 'babel'], exclude: /node_modules/}
+  {test: /\.jsx?$/, loaders: ['babel'], exclude: /node_modules/}
 ]);
 
 module.exports = config;
