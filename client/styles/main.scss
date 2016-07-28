@@ -105,3 +105,28 @@ body {
   font-size: 1rem;
   padding: 1rem 1rem;
 }
+
+.score {
+  animation-duration: 2s;
+  animation-name: slideup;
+  position: relative;
+  bottom: 0;
+  &.positive {
+    color: green;
+  }
+  &.negative {
+    color: red;
+  }
+}
+
+@keyframes slideup {
+  from {
+    bottom: 0;
+    opacity: 1;
+  }
+
+  to {
+    bottom: 20px;
+    opacity: 0;
+  }
+}

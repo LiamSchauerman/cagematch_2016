@@ -30,6 +30,8 @@ app.use('/client', express.static(path.join(process.cwd(), '/client')));
 
 app.disable('x-powered-by');
 
+var NIC_CAGE_IMDBID = 'nm0000115';
+
 var env = {
   production: process.env.NODE_ENV === 'production'
 };
@@ -85,7 +87,7 @@ app.post('/matchup', jsonParser, function (req, res) {
       }
 
       Movie.findOne({
-        actorId: 'nm0000115',
+        actorId: NIC_CAGE_IMDBID,
         title: matchupDataRaw.winner
       }, function(err, winner) {
         if (err) {

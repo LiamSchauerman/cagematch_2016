@@ -35,7 +35,7 @@ class Main extends Component {
   }
 
   fetchMovies() {
-    var self = this;
+    const self = this;
     return fetch('movies')
       .then((response) => {
         return response.json();
