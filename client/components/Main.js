@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import 'whatwg-fetch';
 import Header from './Header';
 import Cage from './Cage';
 import Standings from './Standings';
