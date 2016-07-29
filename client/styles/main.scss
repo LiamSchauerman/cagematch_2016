@@ -107,7 +107,7 @@ body {
   border-width: 3px 0;
   border-color: transparent;
   border-style: solid;
-  &:hover {
+  &.hover {
     background-color: $blue;
     border-color: $gold;
     border-width: 3px 0;
