@@ -140,11 +140,11 @@ class Main extends Component {
       body: JSON.stringify(formattedMatchup),
     })
       .then(response => {
-        console.log('matchup post success');
-        console.log(response);
+        if (!response) {
+          console.log('error /matchup')
+        }
       })
       .catch(err => {
-        console.log('matchup post ERROR');
         console.log(err);
       })
   }
@@ -202,7 +202,6 @@ class Main extends Component {
     if (!this.state.movies || !this.state.movies.length || !entries) {
       return <div className="loading">Preparing the cage...</div>
     }
-    // voteBoth={this.voteBoth}
 
     return (
       <div className="app">
