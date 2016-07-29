@@ -182,8 +182,6 @@ class Main extends Component {
   }
 
   componentDidMount() {
-    console.log('cdm');
-    console.log(this);
     this.fetchMovies()
       .then(() => {
         this.newMatchup();
