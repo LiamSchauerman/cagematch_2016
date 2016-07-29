@@ -1,4 +1,3 @@
-
 $grid-breakpoints: (
         sm: 680px,
         md: 768px,
@@ -21,11 +20,10 @@ $grid-breakpoints: (
 }
 
 $background: white;
-$gold: rgb(247,239,106);
-$green: rgb(125,179,127);
+$gold: rgb(247, 239, 106);
+$green: rgb(125, 179, 127);
 $blue: rgba(0, 128, 128, 0.96);
-$purple: rgba(71,94,138, 0.85);
-
+$purple: rgba(71, 94, 138, 0.85);
 
 body {
   background: $background;
@@ -50,16 +48,17 @@ body {
   align-items: center;
   justify-content: center;
   height: 100px;
-  background-color: black;
-  color: white;
-  font-size: 2rem;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: $purple;
+  font-size: 4rem;
+  position: fixed;
 }
 
 .upper {
   display: flex;
   flex-direction: column;
   width: 100%;
-
+  margin-top: 90px;
   @include media-breakpoint-up('sm') {
     flex-direction: row;
   }
@@ -136,10 +135,13 @@ body {
   width: 80%;
   align-self: flex-end;
   margin: auto;
+  @include media-breakpoint-up('sm') {
+    margin-top: 4rem;
+  }
 }
 
 .standingsHeader {
-  display:flex;
+  display: flex;
   justify-content: center;
   margin-bottom: 1rem;
 }
