@@ -10,7 +10,6 @@ class CageEntry extends Component {
     this.state = {hover: false};
   }
   onMouseOver() {
-    console.log(this);
     this.setState({hover: true})
   }
 

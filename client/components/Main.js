@@ -190,7 +190,6 @@ class Main extends Component {
       });
     const self = this;
     this.fetchTimer = setInterval(() => {
-      console.log('timer');
       self.fetchMovies();
     }, 10000);
   }
