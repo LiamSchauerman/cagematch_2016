@@ -24,7 +24,7 @@ $background: white;
 $gold: rgb(247,239,106);
 $green: rgb(125,179,127);
 $blue: rgba(0, 128, 128, 0.96);
-$purple: rgb(71,94,138);
+$purple: rgba(71,94,138, 0.85);
 
 
 body {
@@ -132,20 +132,38 @@ body {
   display: flex;
   padding: 1rem;
   flex-direction: column;
-  background-color: darkgray;
-  width: 50%;
+  background-color: $purple;
+  width: 80%;
   align-self: flex-end;
   margin: auto;
-  //flex: 0 0 26%;
 }
 
 .standingsHeader {
+  display:flex;
+  justify-content: center;
   margin-bottom: 1rem;
 }
 
 .standingsEntry {
-  background-color: darkblue;
+  background-color: $blue;
   color: white;
   font-size: 1rem;
-  padding: 1rem 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid $gold;
+  border-top: 1px solid $gold;
+  justify-content: space-between;
+  display: flex;
+  align-items: center;
+  > div {
+    flex: 0 1 15%;
+    display: flex;
+    justify-content: center;
+    &.entryTitle {
+      flex: 1 0 70%;
+      text-align: center;
+      border-width: 0 1px;
+      border-style: solid;
+      border-color: $gold;
+    }
+  }
 }
