@@ -1,8 +1,8 @@
+
 $grid-breakpoints: (
-  xs: 0,
-  sm: 544px,
-  md: 768px,
-) !default;
+        sm: 544px,
+        md: 768px,
+);
 
 @function breakpoint-min($name, $breakpoints: $grid-breakpoints) {
   $min: map-get($breakpoints, $name);
@@ -54,7 +54,6 @@ body {
   display: flex;
   flex-direction: column;
   width: 100%;
-  align-items: center;
 
   @include media-breakpoint-up('sm') {
     flex-direction: row;
@@ -94,15 +93,21 @@ body {
 
 .cageEntry {
   flex: 0 0 40%;
-  padding: 2rem 1rem;
+  padding: 1rem 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: rgba(14, 10, 10, 0.83);
-  transition: background-color .1s;
+  transition: background-color .1s, border-color .1s;
   cursor: pointer;
+  border-width: 3px 0;
+  border-color: transparent;
+  border-style: solid;
   &:hover {
-    background-color: rgba(0, 197, 24, 0.68);
+    background-color: rgba(0, 128, 128, 0.96);
+    border-color: gold;
+    border-width: 3px 0;
+
   }
 }
 
@@ -113,7 +118,9 @@ body {
 }
 
 .image {
-  height: 45%;
+  width: 12rem;
+  max-width: 75%;
+  height: auto;
 }
 
 .standingsWrapper {
