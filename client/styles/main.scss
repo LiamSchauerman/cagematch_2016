@@ -21,6 +21,11 @@ $grid-breakpoints: (
 }
 
 $background: white;
+$gold: rgb(247,239,106);
+$green: rgb(125,179,127);
+$blue: rgba(0, 128, 128, 0.96);
+$purple: rgb(71,94,138);
+
 
 body {
   background: $background;
@@ -104,8 +109,8 @@ body {
   border-color: transparent;
   border-style: solid;
   &:hover {
-    background-color: rgba(0, 128, 128, 0.96);
-    border-color: gold;
+    background-color: $blue;
+    border-color: $gold;
     border-width: 3px 0;
 
   }
