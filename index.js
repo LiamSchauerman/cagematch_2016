@@ -147,7 +147,29 @@ var entries = [
 { "_id" : "553bd7d0168a011d4725fb31", "imdbId" : "tt2381249", "title" : "Mission: Impossible - Rogue Nation", "actorId" : "nm0000129",  "score" : 1178, "__v" : 0, "imgUrl" : "http://ia.media-imdb.com/images/M/MV5BMTQ1NDI2MzU2MF5BMl5BanBnXkFtZTgwNTExNTU5NDE@._V1_SX300.jpg" }
 ]
 
-
+// matchups
+var matchups = [
+    {
+        id: '987',
+        entries: {
+            'tt1229238': { "_id" : "553bd7d0168a011d4725fb36", "imdbId" : "tt1229238", "title" : "Mission: Impossible - Ghost Protocol", "actorId" : "nm0000129","score" : 1200, "__v" : 0, "imgUrl" : "http://ia.media-imdb.com/images/M/MV5BMTY4MTUxMjQ5OV5BMl5BanBnXkFtZTcwNTUyMzg5Ng@@._V1_SX300.jpg" },
+            'tt2381249': { "_id" : "553bd7d0168a011d4725fb31", "imdbId" : "tt2381249", "title" : "Mission: Impossible - Rogue Nation", "actorId" : "nm0000129",  "score" : 1178, "__v" : 0, "imgUrl" : "http://ia.media-imdb.com/images/M/MV5BMTQ1NDI2MzU2MF5BMl5BanBnXkFtZTgwNTExNTU5NDE@._V1_SX300.jpg" },
+        },
+        winner: 'tt1229238',
+        loser: 'tt2381249',
+        score_adjustment: {'tt1229238': 5, 'tt2381249': -5},
+    },
+    {
+        id: '654',
+        entries: {
+            'tt3532216': { "_id" : "553bd7d0168a011d4725fb30", "imdbId" : "tt3532216", "title" : "Mena", "actorId" : "nm0000129", "score" : 1168, "__v" : 0 },
+            'tt1483013': { "_id" : "553bd7d0168a011d4725fb33", "imdbId" : "tt1483013", "title" : "Oblivion", "actorId" : "nm0000129", "score" : 1178, "__v" : 0, "imgUrl" : "http://ia.media-imdb.com/images/M/MV5BMTQwMDY0MTA4MF5BMl5BanBnXkFtZTcwNzI3MDgxOQ@@._V1_SX300.jpg" },
+        },
+        winner: 'tt1483013',
+        loser: 'tt3532216',
+        score_adjustment: {'tt1483013': 5, 'tt3532216': -5},
+    }
+]
 
 app.get('/s', function(req, res) {
     res.status(200).end();
@@ -184,22 +206,51 @@ app.post('/entries', jsonParser, function(req, res){
       if (entry) {return res.status(200).send(JSON.parse(entry))};
       res.status(400).end();
   });
-})
+});
 
 app.get('/lists', function(req, res) {
     res.send(JSON.stringify(lists));
-})
+});
 app.get('/lists/:id', function(req, res) {
     var id = req.params.id;
-    console.log(req.query);
-    console.log(req.params);
     var filtered = lists.filter(function(list){
         return list.id === id.toString();
     });
     var list = (filtered || [])[0]
     res.send(JSON.stringify(list));
-})
+});
 
+app.get('/matchups', function(req, res) {
+    res.send(JSON.stringify(matchups));
+});
+app.get('/matchups/:id', function(req, res) {
+    var id = req.params.id;
+    var filtered = matchups.filter(function(matchup){
+        return matchup.id === id.toString();
+    });
+    var matchup = (filtered || [])[0]
+    res.send(JSON.stringify(matchup));
+});
+app.post('/entries', jsonParser, function(req, res){
+    var body = [];
+    req.on('data', function (data) {
+      body.push(data);
+    });
+    req.on('end', function () {
+      body = Buffer.concat(body).toString();
+      var matchup = body;
+      if (!matchup) {return res.status(404).end()}
+      if (matchup && JSON.parse(matchup).id) {
+          var parsed = JSON.parse(matchup);
+          parsed.imdbId = parsed.id;
+          entries.push(parsed);
+          res.status(201).end();
+          return;
+      }
+      if (matchup) {return res.status(200).send(JSON.parse(matchup))};
+      res.status(400).end();
+  });
+});
 
 app.get('/', function (req, res) {
   res.render('index', {
