@@ -219,7 +219,25 @@ app.get('/lists/:id', function(req, res) {
     var list = (filtered || [])[0]
     res.send(JSON.stringify(list));
 });
-
+app.post('/lists', jsonParser, function(req, res){
+    var body = [];
+    req.on('data', function (data) {
+      body.push(data);
+    });
+    req.on('end', function () {
+      body = Buffer.concat(body).toString();
+      var list = body;
+      if (!list) {return res.status(404).end()}
+      if (list && JSON.parse(list).id) {
+          var parsed = JSON.parse(list);
+          lists.push(parsed);
+          res.status(201).end();
+          return;
+      }
+      if (list) {return res.status(200).send(JSON.parse(list))};
+      res.status(400).end();
+  });
+});
 app.get('/matchups', function(req, res) {
     res.send(JSON.stringify(matchups));
 });
@@ -231,7 +249,7 @@ app.get('/matchups/:id', function(req, res) {
     var matchup = (filtered || [])[0]
     res.send(JSON.stringify(matchup));
 });
-app.post('/entries', jsonParser, function(req, res){
+app.post('/matchups', jsonParser, function(req, res){
     var body = [];
     req.on('data', function (data) {
       body.push(data);
@@ -242,8 +260,7 @@ app.post('/entries', jsonParser, function(req, res){
       if (!matchup) {return res.status(404).end()}
       if (matchup && JSON.parse(matchup).id) {
           var parsed = JSON.parse(matchup);
-          parsed.imdbId = parsed.id;
-          entries.push(parsed);
+          matchups.push(parsed);
           res.status(201).end();
           return;
       }
