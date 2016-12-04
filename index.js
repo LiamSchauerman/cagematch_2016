@@ -152,12 +152,6 @@ var entries = [
 app.get('/s', function(req, res) {
     res.status(200).end();
 });
-app.get('/movie', function (req, res) {
-    res.send(JSON.stringify([1,2,3]));
-});
-
-
-
 
 app.get('/entries', function(req, res) {
     res.send(JSON.stringify(entries));
@@ -165,11 +159,32 @@ app.get('/entries', function(req, res) {
 app.get('/entries/:id', function(req, res) {
     var id = req.params.id;
     var filtered = entries.filter(function(entry){
+        // use .id in new schema
         return entry.imdbId === id.toString();
     });
     var list = (filtered || [])[0]
     res.send(JSON.stringify(list));
 });
+app.post('/entries', jsonParser, function(req, res){
+    var body = [];
+    req.on('data', function (data) {
+      body.push(data);
+    });
+    req.on('end', function () {
+      body = Buffer.concat(body).toString();
+      var entry = body;
+      if (!entry) {return res.status(404).end()}
+      if (entry && JSON.parse(entry).id) {
+          var parsed = JSON.parse(entry);
+          parsed.imdbId = parsed.id;
+          entries.push(parsed);
+          res.status(201).end();
+          return;
+      }
+      if (entry) {return res.status(200).send(JSON.parse(entry))};
+      res.status(400).end();
+  });
+})
 
 app.get('/lists', function(req, res) {
     res.send(JSON.stringify(lists));
