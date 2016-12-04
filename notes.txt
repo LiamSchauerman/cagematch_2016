@@ -1,0 +1,8 @@
+Define generic schema for "Entry"
+* id (entry id)
+* list_id ("JacksAlbums", "CageMovies")
+* title ("Con Air", "Somewhere in the Between")
+
+Define function to CREATE_LIST
+* accept array of objects
+    * include list_id, title
