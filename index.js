@@ -44,7 +44,13 @@ if (env.production) {
  * database connect
  */
 mongoose.connect('localhost/cagematch');
-//todo - move this to routes external function
+
+/**
+ * define routes
+ */
+
+// var routes = require('./server/routes.js');
+
 app.get('/movies', function (req, res) {
   Movie.find({actorId: 'nm0000115'}, function (err, cageMovies) {
     if (err) return next(err);
@@ -112,6 +118,46 @@ app.post('/matchup', jsonParser, function (req, res) {
     });
   })
 });
+
+var lists = [
+    {id: '123', title: 'Nicolas Cage Movies',},
+    {id: '456', title: 'Top 20 Albums 2007-2016'},
+    {id: '789', title: 'Adam Sandler Movies'}
+]
+
+
+
+app.get('/s', function(req, res) {
+    res.status(200).end();
+});
+app.get('/movie', function (req, res) {
+    res.send(JSON.stringify([1,2,3]));
+});
+
+
+
+
+app.get('/entries', function(req, res) {
+    res.status(200).end();
+});
+app.get('/entries/:id', function(req, res) {
+    res.status(200).end();
+});
+
+app.get('/lists', function(req, res) {
+    res.send(JSON.stringify(lists));
+})
+app.get('/lists/:id', function(req, res) {
+    var id = req.params.id;
+    console.log(req.query);
+    console.log(req.params);
+    var filtered = lists.filter(function(list){
+        return list.id === id.toString();
+    });
+    var list = (filtered || [])[0]
+    res.send(JSON.stringify(list));
+})
+
 
 app.get('/', function (req, res) {
   res.render('index', {
