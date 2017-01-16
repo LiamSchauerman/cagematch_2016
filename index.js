@@ -4,6 +4,8 @@ var mongoose = require("mongoose");
 var request = require('request');
 var Movie = require('./models/movieModel');
 var Matchup = require('./models/matchupModel');
+var Entry = require('./models/entryModel');
+var List = require('./models/listModel');
 var fs = require('fs');
 var path = require('path');
 
